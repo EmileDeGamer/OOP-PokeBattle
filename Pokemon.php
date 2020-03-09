@@ -12,22 +12,27 @@ class Pokemon{
         $this->hitpoints = $hitpoints;
         $this->health = $hitpoints;
         for ($i=0; $i < count($attacks); $i++) { 
-            $this->attacks[$i] = new Attack($attacks[0], $attacks[1]);
+            $this->attacks[$i] = new Attack($attacks[$i][0], $attacks[$i][1]);
         }
         $this->weakness = new Weakness($weakness[0], $weakness[1]);
         $this->resistance = new Resistance($resistance[0], $resistance[1]);
     }
 
     public function attack($enemy, $attack){
-        print_r("<br>");
         for ($i=0; $i < count($this->attacks); $i++) { 
             if($this->attacks[$i]->name == $attack){
-                print_r(":D");
+                $tempDamage = $this->attacks[$i]->damage;
+                if($enemy->weakness->energyType->type == $this->energyType->type){
+                    $tempDamage = $tempDamage * $enemy->weakness->multiplier;
+                }
+                if($enemy->resistance->energyType->type == $this->energyType->type){
+                    $tempDamage = $tempDamage - $enemy->resistance->value;
+                }
+                echo $enemy->name . " has " . $enemy->hitpoints . " hp left <br>";
+                $enemy->hitpoints -= $tempDamage;
+                echo $this->name . " did " . $tempDamage . " damage to " . $enemy->name . " with " . $attack . "<br>";
+                echo $enemy->name . " has " . $enemy->hitpoints . " hp left <br>";
             }
-        }
-        print_r($this->attacks[0]);
-        //fix defining damage and name
-        //print_r($this->attacks);
-        //$this->attacks[$attack] * $enemy->weakness->multiplier;
+        }  
     }
 }
