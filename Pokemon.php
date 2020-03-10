@@ -28,10 +28,10 @@ class Pokemon{
                 if($enemy->resistance->energyType->type == $this->energyType->type){
                     $tempDamage = $tempDamage - $enemy->resistance->value;
                 }
-                echo $enemy->name . " has " . $enemy->hitpoints . " hp left <br>";
-                $enemy->hitpoints -= $tempDamage;
+                echo $enemy->name . " has " . $enemy->health . " hp left <br>";
+                $enemy->health -= $tempDamage;
                 echo $this->name . " did " . $tempDamage . " damage to " . $enemy->name . " with " . $attack . "<br>";
-                echo $enemy->name . " has " . $enemy->hitpoints . " hp left <br>";
+                echo $enemy->name . " has " . $enemy->health . " hp left <br>";
             }
         }  
     }
