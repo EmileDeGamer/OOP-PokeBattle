@@ -3,6 +3,8 @@ require "EnergyType.php";
 require "Attack.php";
 require "Weakness.php";
 require "Resistance.php";
+require "RequestDataFromAllPokemons.php";
+
 class Pokemon{
     public $name, $energyType, $hitpoints, $health, $attacks = array(), $weakness, $resistance;
 
@@ -16,6 +18,7 @@ class Pokemon{
         }
         $this->weakness = new Weakness($weakness[0], $weakness[1]);
         $this->resistance = new Resistance($resistance[0], $resistance[1]);
+        array_push(RequestDataFromAllPokemons::$pokemons, $this);
     }
 
     public function attack($enemy, $attack){
@@ -28,10 +31,14 @@ class Pokemon{
                 if($enemy->resistance->energyType->type == $this->energyType->type){
                     $tempDamage = $tempDamage - $enemy->resistance->value;
                 }
-                echo $enemy->name . " has " . $enemy->hitpoints . " hp left <br>";
-                $enemy->hitpoints -= $tempDamage;
+                echo $enemy->name . " has " . $enemy->health . " hp left <br>";
+                $enemy->health -= $tempDamage;
                 echo $this->name . " did " . $tempDamage . " damage to " . $enemy->name . " with " . $attack . "<br>";
-                echo $enemy->name . " has " . $enemy->hitpoints . " hp left <br>";
+                if($enemy->health <= 0){
+                    $enemy->health = 0;
+                }
+                echo $enemy->name . " has " . $enemy->health . " hp left <br>";
+                RequestDataFromAllPokemons::getPopulation();
             }
         }  
     }
