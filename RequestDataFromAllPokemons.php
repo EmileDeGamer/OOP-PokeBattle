@@ -7,7 +7,6 @@ class RequestDataFromAllPokemons{
                 unset(self::$pokemons[$i]);
             }
         }
-
         echo count(self::$pokemons) . " Pokemons left <br>";
     }
 }
